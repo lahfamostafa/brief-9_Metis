@@ -1,5 +1,7 @@
 <?php
     require_once "../commandes/comMembre.php";
+    require_once "../commandes/comActivite.php";
+    require_once "../Activité.php";
 
     $repoMembre = new MembreCommande();
     $repoActivite = new ActiviteCommande();
@@ -67,7 +69,7 @@
                     default:
                     echo "choix invalide\n";
                 }
-
+                break;
 
             case 2:
                 echo "\n\n\n===== GESTION DES ACTIVITES =====\n";
@@ -76,9 +78,9 @@
                 echo "3. Modifier un activité\n";
                 echo "4. Supprimer un activité\n";
                 echo "Choix : ";
-                $choix2 = trim(fgets(STDIN));
+                $choix3 = trim(fgets(STDIN));
 
-                switch($choix2){
+                switch($choix3){
                     case 1:
                         echo "Description : ";
                         $description = trim(fgets(STDIN));
@@ -89,7 +91,7 @@
                         echo "Id Projet : ";
                         $idProjet = trim(fgets(STDIN));
                         
-                        $activite = new Activité($description , $statut , $idProjet);
+                        $activite = new Activite($description , $statut , new DateTime() , $idProjet);
                         $repoActivite->create($activite);
                         echo "activité ajouté avec succès\n";
                         break;
@@ -97,7 +99,7 @@
                     case 2:
                         $activite = $repoActivite->read();
                         foreach($activite as $a){
-                            echo "{$a['id']} | {$a['nom']} | {$a['email']}\n";
+                            echo "{$a['id']} | {$a['description']} | {$a['statut']} | {$a['id_projet']}\n";
                         }
                         break;
                         
@@ -128,9 +130,10 @@
                     default:
                     echo "choix invalide\n";
                 }
+                break;
             
             default:
-            echo "choix invalide\n";
+                echo "choix invalide\n";
         }
     }catch(Exception $e){
         echo "Error : ". $e->getMessage();
