@@ -10,7 +10,7 @@
         public function __construct(string $description, string $statut, DateTime $dateCreation, int $projetId) {
             $this->description = $description;
             $this->statut = $statut;
-            $this->dateCreation = $new DateTime();
+            $this->dateCreation = new DateTime();
             $this->projetId = $projetId;
         }
 

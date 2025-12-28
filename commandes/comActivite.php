@@ -29,6 +29,19 @@
             return $stm->fetch(PDO::FETCH_ASSOC);
         }
 
+        
+        public function countProjet($idProjet){
+            $stm = $this->pdo->prepare("select count(*) from Activite where id_projet = ?");
+            $stm->execute([$idProjet]);
+            return $stm->fetchColumn();
+        }
+
+        public function ifMembreExist($idMembre){
+            $stm = $this->pdo->prepare("select count(*) from membre where id = ?");
+            $stm->execute([$idMembre]);
+            return $stm->fetchColumn();
+        }
+
         public function update(int $id, string $description ,string $statut ,int $idProjet){
             $stm = $this->pdo->prepare("update activite set descriptionAc = ? , statut = ? , id_projet = ? where id = ?");
             return $stm->execute([$description , $statut ,$idProjet , $id]);
