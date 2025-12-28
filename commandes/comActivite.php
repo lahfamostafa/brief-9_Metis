@@ -11,7 +11,7 @@
 
         public function create(Activite $activite){
             try{
-                $sql = "insert into activite(description,statut,id_projet) values (:description , :statut , :id_projet)";
+                $sql = "insert into activite(descriptionAc,statut,id_projet) values (:description , :statut , :id_projet)";
                 $stm = $this->pdo->prepare($sql);
                 return $stm->execute(['description'=>$activite->getDescription(),'statut'=>$activite->getStatut(),'id_projet'=>$activite->getProjetId()]);
             }catch(PDOException $e){

@@ -13,7 +13,7 @@
             try{
                 $sql = "insert into membre(nom,email) values (:nom , :email)";
                 $stm = $this->pdo->prepare($sql);
-                var_dump($membre->getNom(), $membre->getEmail());
+                // var_dump($membre->getNom(), $membre->getEmail());
                 return $stm->execute(['nom'=>$membre->getNom(),'email'=>$membre->getEmail()]);
             }catch(PDOException $e){
                 die ("Error : " . $e->getMessage());
