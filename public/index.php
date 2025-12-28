@@ -1,14 +1,17 @@
 <?php
     require_once "../commandes/comMembre.php";
     require_once "../commandes/comActivite.php";
+    require_once "../commandes/comProjet.php";
     require_once "../Activité.php";
 
     $repoMembre = new MembreCommande();
     $repoActivite = new ActiviteCommande();
+    $repoProjet = new ProjetCommande();
 
     echo "===== CRUDs =====\n";
     echo "1. CRUD membre\n";
     echo "2. CRUD activité\n";
+    echo "3. CRUD projet\n";
     echo "Choix : ";
 
     
@@ -41,7 +44,7 @@
                     case 2:
                         $membre = $repoMembre->read();
                         foreach($membre as $m){
-                            echo "{$m['id']} | {$m['nom']} | {$m['email']}\n";
+                            echo "Id : {$m['id']} | Nom : {$m['nom']} | Email : {$m['email']}\n";
                         }
                         break;
                         
@@ -99,7 +102,7 @@
                     case 2:
                         $activite = $repoActivite->read();
                         foreach($activite as $a){
-                            echo "{$a['id']} | {$a['description']} | {$a['statut']} | {$a['id_projet']}\n";
+                            echo "Id : {$a['id']} | Description : {$a['descriptionAc']} | Statut : {$a['statut']} | Id de projet : {$a['id_projet']}\n";
                         }
                         break;
                         
@@ -125,6 +128,90 @@
                         $id = trim(fgets(STDIN));
                         $repoActivite->delete($id);
                         echo "Activité supprimé\n";
+                        break;
+
+                    default:
+                    echo "choix invalide\n";
+                }
+                break;
+            case 3:
+                echo "\n\n\n===== GESTION DES ProjetS =====\n";
+                echo "1. Ajouter un Projet\n";
+                echo "2. Lister tous les Projets\n";
+                echo "3. Lister Projets d'un membre\n";
+                echo "4. Modifier un Projet\n";
+                echo "5. Supprimer un Projet\n";
+                echo "Choix : ";
+                $choix4 = trim(fgets(STDIN));
+
+                switch($choix4){
+                    case 1:
+                        echo "Titre : ";
+                        $titre = trim(fgets(STDIN));
+                        
+                        echo "Description : ";
+                        $description = trim(fgets(STDIN));
+                        
+                        echo "type (court / long) : ";
+                        $type = trim(fgets(STDIN));
+                        
+                        echo "Id membre : ";
+                        $idMembre = trim(fgets(STDIN));
+
+                        if($type === "court"){
+                            $Projet = new ProjetCourt($titre , $description , $idMembre);
+                        }else if($type === "long"){
+                            $Projet = new ProjetLong($titre , $description , $idMembre);
+                        }else{
+                            echo "!! Type invalide !!\n";
+                            break;
+                        }
+                        
+                        $repoProjet->create($Projet);
+                        echo "Projet ajouté avec succès\n";
+                        break;
+                        
+                    case 2:
+                        $Projet = $repoProjet->read();
+                        foreach($Projet as $a){
+                            echo "Id : {$a['id']} | Titre : {$a['titre']} | Description : {$a['descriptionPr']} | Type : {$a['typeProjet']} | Membre : {$a['membreId']}\n";
+                        }
+                        break;
+
+                    case 3:
+                        echo "Id membre : ";
+                        $idMembre = trim(fgets(STDIN));
+                        $projets = $repoProjet->readByMembre($idMembre);
+                        foreach($projets as $p){
+                            echo "Id : {$p['id']} | Titre : {$p['titre']} | Description : {$p['descriptionPr']} | Type : {$p['typeProjet']} | Membre : {$p['membreId']}\n";
+                        }
+                        break;
+                        
+                    case 4:
+                        echo "ID de projet : ";
+                        $id = trim(fgets(STDIN));
+                        
+                        echo "Nouvelle titre : ";
+                        $titre = trim(fgets(STDIN));
+                        
+                        echo "Nouveau description : ";
+                        $description = trim(fgets(STDIN));
+                        
+                        echo "Nouveau type de projet : ";
+                        $type = trim(fgets(STDIN));
+                        
+                        echo "Nouveau id membre : ";
+                        $idMembre = trim(fgets(STDIN));
+                        
+                        $repoProjet->update($id , $titre , $description , $type , $idMembre);
+                        echo "Projet modifié\n";
+                        break;
+
+                    case 5:
+                        echo "ID de projet a supprimer : ";
+                        $id = trim(fgets(STDIN));
+                        $repoProjet->delete($id);
+                        echo "Projet supprimé\n";
                         break;
 
                     default:

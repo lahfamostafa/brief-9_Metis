@@ -1,5 +1,5 @@
 <?php
-require_once "Projet.php"
+require_once "Projet.php";
 
     class ProjetLong extends Projet{
 

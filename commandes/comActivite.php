@@ -30,7 +30,7 @@
         }
 
         public function update(int $id, string $description ,string $statut ,int $idProjet){
-            $stm = $this->pdo->prepare("update activite set description = ? , statut = ? , id_projet = ? where id = ?");
+            $stm = $this->pdo->prepare("update activite set descriptionAc = ? , statut = ? , id_projet = ? where id = ?");
             return $stm->execute([$description , $statut ,$idProjet , $id]);
         }
 

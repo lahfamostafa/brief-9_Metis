@@ -1,10 +1,10 @@
 <?php
-require_once "Projet.php"
+require_once "Projet.php";
 
-class ProjetCourt extends Projet{
+    class ProjetCourt extends Projet{
 
-    public function getType(){
-        return "Court";
+        public function getType(){
+            return "Court";
+        }
     }
-}
 ?>
